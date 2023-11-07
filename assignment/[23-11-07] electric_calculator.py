@@ -9,34 +9,22 @@ def elec_usage(unit):
         convert_limit = [150, 250, 400]
         convert = [3.2484, 4.2218, 4.4217]
 
-        for x in range(len(convert_limit)):
-            if convert_limit[x] <= 400:
-                if unit_left - convert_limit[x] > 0:
-                    unit_left = unit_left - convert_limit[x]
-                    usage = usage + (convert_limit[x] * convert[x])
-                else:
-                    usage = usage + (unit_left * convert[x])
-                    break
-            else:
-                usage = usage + (convert_limit * convert[x])
-                break
-
     else:
         fee = 8.19
         convert_limit = [15, 10, 10, 65, 50, 250, 400]
         convert = [2.3488, 2.9882, 3.2405, 3.6237, 3.7171, 4.2218, 4.4217]
 
-        for x in range(len(convert_limit)):
-            if convert_limit[x] <= 400:
-                if unit_left - convert_limit[x] > 0:
-                    unit_left = unit_left - convert_limit[x]
-                    usage = usage + (convert_limit[x] * convert[x])
-                else:
-                    usage = usage + (unit_left * convert[x])
-                    break
+    for x in range(len(convert_limit)):
+        if convert_limit[x] <= 400:
+            if unit_left - convert_limit[x] > 0:
+                unit_left = unit_left - convert_limit[x]
+                usage = usage + (convert_limit[x] * convert[x])
             else:
-                usage = usage + (convert_limit * convert[x])
+                usage = usage + (unit_left * convert[x])
                 break
+        else:
+            usage = usage + (convert_limit * convert[x])
+            break
 
     usage = float(usage) + fee
 
