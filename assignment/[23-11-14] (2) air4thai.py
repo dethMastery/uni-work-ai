@@ -12,18 +12,20 @@ def check(inp):
 
 params = '&param='
 
-based_obj = ['PM25', 'PM10', 'O3', 'CO', 'NO2', 'SO2', 'WS', 'WD', 'TEMP', 'RH', 'BP', 'RAIN']
-based_objSlot = [6, 6, 4, 4, 5, 5, 4, 4, 6, 4, 4, 6]
+based_slug = ['PM25', 'PM10', 'O3', 'CO', 'NO2', 'SO2', 'WS', 'WD', 'TEMP', 'RH', 'BP', 'RAIN']
+based_obj = []
 
-for param in range(len(based_obj)): 
-  ask = input(f'Do you want to see {based_obj[param]}? (Y/n): ')
+for param in range(len(based_slug)): 
+  ask = input(f'Do you want to see {based_slug[param]}? (Y/n): ')
   ask = check(ask)
 
   if (ask == 'y'):
+    based_obj.append(based_slug[param])
     if (params == '&param='):
-      params = params + based_obj[param]
+      params = params + based_slug[param]
     else:
-      params = params + ',' + based_obj[param]
+      params = params + ',' + based_slug[param]
+    
 
 print('')
 
@@ -53,7 +55,6 @@ while(ended_time == ''):
 ended_time = '&etime=' + ended_time
 
 link = based + params + started_date + ended_date + started_time + ended_time
-print(link)
 obj = json.load(urlopen(str(link)))
 main_station = obj['stations'][0]['data']
 
@@ -70,41 +71,12 @@ for count in range(len(main_station)):
     if (slot == 'DATETIMEDATA'):
       line += '|' + value + '|'
     else:
-      index = based_obj.index(slot)
       tValue = str(value)
 
-      if (tValue == 'None'):
-        tValue = '---'
+      if (tValue == 'None') | (tValue == '') :
+        tValue = '-'
 
-      if (len(tValue) < based_objSlot[index]):
-        spacing = based_objSlot[index] - len(tValue)
-        tempLine = ''
-
-        if ((spacing % 2) != 0):
-          front = math.ceil(spacing / 2)
-          back = spacing - front
-
-          for f in range(front):
-            tempLine += ' '
-          
-          tempLine += tValue
-
-          for b in range(back):
-            tempLine += ' '
-        else:
-          space = spacing / 2
-
-          for f in range(int(space)):
-            tempLine += ' '
-          
-          tempLine += tValue
-
-          for b in range(int(space)):
-            tempLine += ' '
-        
-        line += tempLine + '|'
-      else:
-        line += tValue + '|'
+      line += tValue + '|'
 
   print(line)
   
