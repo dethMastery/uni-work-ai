@@ -73,7 +73,7 @@ def depth_limit_search(initial_state, goal_state, limit=5):
 
         current_state, path = stack.pop()
 
-        # print(f'move {len(path)}', path)
+        print(f"move {len(path)}", path)
 
     return None
 
