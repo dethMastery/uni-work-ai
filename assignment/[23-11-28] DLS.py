@@ -74,33 +74,39 @@ def depth_limit_search(initial_state, goal_state, limit=5):
 
         current_state, path = stack.pop()
 
-        print(f"move {len(path)}", path)
-        print("")
-        if str(new_state) == "None":
-            print(str(goal_state))
-        else:
-            print(str(new_state))
-        print("")
+        print(f"move {len(path)}: ", path)
 
     return None
 
 
-initial_puzzle = [1, 2, 3, 0, 4, 5, 7, 8, 6]
+def sendSolution(solution):
+    state = initial_state
+    for x in range(len(solution)):
+        new_state = state.move(solution[x])
+        print(solution[x])
+        if str(new_state) == "None":
+            print(str(goal_state))
+        else:
+            print(str(new_state))
+
+
+initial_puzzle = [1, 2, 3, 0, 4, 6, 7, 5, 8]
 goal_puzzle = [1, 2, 3, 4, 5, 6, 7, 8, 0]
 
 initial_state = PuzzleState(initial_puzzle)
 goal_state = PuzzleState(goal_puzzle)
 
-# print(" ")
-# print("Initial State:")
-# print(str(initial_state))
-
 solution_path = depth_limit_search(initial_state, goal_state, 20)
 
-
 if solution_path:
-    print(f"Solution Path {len(solution_path)} moves : \n{solution_path}")
-    print("")
-    print(str(goal_state))
+    print(" ")
+    print("Initial State:\n")
+    print(str(initial_state))
+
+    print("************************************************")
+    print(" ")
+
+    print(f"Solution Path {len(solution_path)} moves : \n{solution_path}\n")
+    sendSolution(solution_path)
 else:
     print("No solution found.")
